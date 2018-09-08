@@ -15,6 +15,7 @@ import {
   VSelect,
   VAutocomplete,
   VTabs,
+  VInput,
   // VTab,
   transitions
 } from 'vuetify'
@@ -23,6 +24,7 @@ import 'vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   components: {
     // VTab,
+    VInput,
     VTabs,
     VAutocomplete,
     VSelect,

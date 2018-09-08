@@ -32,16 +32,33 @@
         <v-flex md6>
           <v-card>
             <v-card-actions>
-              <v-text-field
-                placeholder="Placeholder"
-                v-model="task"
-              ></v-text-field>
+              <v-flex>
+
+                <v-flex md12>
+                  <v-text-field
+                    placeholder="Placeholder"
+                    v-model="task"
+                    append-outer-icon="queue"
+                    @keyup.enter="handleTaskModal"
+                  ></v-text-field>
+                  <!-- <v-icon>library_add</v-icon> -->
+                </v-flex>
+
+
+                <!-- <v-flex md12>
+                  <v-text-field
+                    placeholder="Placeholder"
+                    v-model="task_type"
+                  ></v-text-field>
+                </v-flex> -->
               <!-- <v-btn @click="showModal = true" flat color="blue">Quick add User</v-btn> -->
+            </v-flex>
             </v-card-actions>
           </v-card>
         </v-flex>
 
       <UserActions :createOnly="true" v-if="showModal" @closeUserActions="closeUserActions"/>
+      <addTask v-if="showTask"/>
     </v-layout>
 
     <!-- <v-layout row md5>
@@ -60,15 +77,20 @@
 <script>
 // import ComponentA from './ComponentA'
 import UserActions from '../components/user-modal-actions.vue'
+import addTask from '../components/add-task.vue'
 export default {
   name: 'home',
   components:{
-    UserActions
+    UserActions,
+    addTask
   },
   created(){
     this.handleFetchUsers()
   },
   methods:{
+    handleTaskModal(){
+      this.showTask = true
+    },
     handleFetchUsers(){
       this.$store.dispatch('GET_USERS')
     },
@@ -96,6 +118,8 @@ export default {
     return {
       showModal:false,
       task:'',
+      task_type:'',
+      showTask:false,
       // clipped: false,
     }
   }
