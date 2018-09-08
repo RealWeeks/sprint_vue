@@ -39,6 +39,9 @@
                     placeholder="Placeholder"
                     v-model="task"
                     append-outer-icon="queue"
+                    
+                    @click:append-outer="handleTaskModal"
+
                     @keyup.enter="handleTaskModal"
                   ></v-text-field>
                   <!-- <v-icon>library_add</v-icon> -->
@@ -58,7 +61,7 @@
         </v-flex>
 
       <UserActions :createOnly="true" v-if="showModal" @closeUserActions="closeUserActions"/>
-      <addTask v-if="showTask"/>
+      <addTask v-if="showTask" @close="showTask = false"/>
     </v-layout>
 
     <!-- <v-layout row md5>
