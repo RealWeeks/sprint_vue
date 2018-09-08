@@ -19,7 +19,7 @@
               <v-tab ripple>
                 Sign Up
               </v-tab>
-              <v-tab ripple>
+              <v-tab v-if="!createOnly" ripple>
                 Sign In
               </v-tab>
               <v-tab-item>
@@ -61,7 +61,7 @@
 
                 </v-card>
               </v-tab-item>
-              <v-tab-item>
+              <v-tab-item v-if="!createOnly">
                 <v-card flat>
                   <!-- <v-card-text>Contents for Item 2 go here</v-card-text> -->
 
@@ -102,6 +102,7 @@
 // import UserActions from './components/user-modal-actions.vue'
 export default {
   name: 'useractions',
+  props:['createOnly'],
   components:{
     // UserActions
   },
@@ -109,14 +110,23 @@ export default {
     handleSubmit(){
       if (this.tabs === 1) {
         this.$store.dispatch('SIGN_IN', this.userData)
+        this.$emit('closeUserActions')
       }else{
         this.$store.dispatch('SIGN_UP', this.userData)
+        .then((resp)=>{
+          this.$nextTick(() => {
+            if (!this.createOnly) {
+              this.$store.dispatch('SIGN_IN', this.userData)
+            }
+
+          });
+
+        })
+        .then(()=>{
+          this.$emit('closeUserActions')
+        })
       }
 
-      this.$emit('closeUserActions')
-      // let data = {"credentials": this.userData};
-
-      // this.dialog = false
     },
     handleClose(){
       // dialog = false;

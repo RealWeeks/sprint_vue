@@ -25,12 +25,12 @@ export default new Vuex.Store({
       state.userData = payload.user;
     },
     GET_USERS (state, payload) {
-      state.users = payload.users;
+      state.users = payload.users.reverse();
     }
   },
   actions: {
     SIGN_UP({commit}, payload) {
-      axios({
+      return axios({
         method: 'post',
         url: '/sign-up',
         baseURL: "http://localhost:4741",
@@ -46,7 +46,10 @@ export default new Vuex.Store({
         }
       })
       .then((response) => {
-        commit('SIGN_UP', response.data)
+        Promise.resolve(response)
+        // handle sign up seperatly
+        // users can sign up others don't commit on sign up
+        // commit('SIGN_UP', response.data)
       })
       .catch((err)=>{
         debugger;
@@ -71,6 +74,26 @@ export default new Vuex.Store({
         debugger;
       })
     },
+    // SIGN_IN_POST_UP({commit}, payload) {
+    //   debugger;
+    //   axios({
+    //     method: 'post',
+    //     url: '/sign-in',
+    //     baseURL: "http://localhost:4741",
+    //     data: {
+    //       credentials:{
+    //         email: payload.email,
+    //         password: payload.password,
+    //       }
+    //     }
+    //   })
+    //   .then((response) => {
+    //     commit('SIGN_IN', response.data)
+    //   })
+    //   .catch((err)=>{
+    //     debugger;
+    //   })
+    // },
     GET_USERS({commit}) {
       // debugger;
       axios({
